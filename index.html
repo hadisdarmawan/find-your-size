@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Find Your Size</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .title h1 {
+      font-size: 32px;
+      margin: 0;
+      color: #333;
+    }
+
+    .title img {
+      width: 50px;
+      height: auto;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #eee;
+      margin: 20px 0;
+    }
+
+    form label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+      color: #555;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      padding: 20px;
+      background: #e6f2ff;
+      border: 2px solid #007BFF;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #result.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">
+      <h1>Find Your Size</h1>
+      <img src="https://cdn-icons-png.flaticon.com/128/107/107499.png" alt="Shirt Logo">
+    </div>
+
+    <hr />
+
+    <form id="sizeForm">
+      <label for="gender">Gender:</label>
+      <select id="gender" required>
+        <option value="">-- Pilih Gender --</option>
+        <option value="male">Laki-laki</option>
+        <option value="female">Perempuan</option>
+      </select>
+
+      <label for="height">Tinggi Badan (cm):</label>
+      <input type="number" id="height" required />
+
+      <label for="weight">Berat Badan (kg):</label>
+      <input type="number" id="weight" required />
+
+      <hr />
+
+      <button type="submit">Cari Size</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById('sizeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const gender = document.getElementById('gender').value;
+      const height = parseFloat(document.getElementById('height').value);
+      const weight = parseFloat(document.getElementById('weight').value);
+
+      let size = '';
+
+      // Kalkulasi BMI (Body Mass Index)
+      const bmi = weight / ((height / 100) ** 2);
+
+      if (gender === 'male') {
+        if (bmi < 18.5) {
+          size = 'S';
+        } else if (bmi >= 18.5 && bmi < 23) {
+          size = 'M';
+        } else if (bmi >= 23 && bmi < 27) {
+          size = 'L';
+        } else {
+          size = 'XL';
+        }
+      } else if (gender === 'female') {
+        if (bmi < 18) {
+          size = 'S';
+        } else if (bmi >= 18 && bmi < 22) {
+          size = 'M';
+        } else if (bmi >= 22 && bmi < 26) {
+          size = 'L';
+        } else {
+          size = 'XL';
+        }
+      } else {
+        size = 'Harap pilih gender!';
+      }
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = `Ukuran baju yang disarankan: ${size}`;
+      resultDiv.classList.add('show');
+    });
+  </script>
+</body>
+</html>
